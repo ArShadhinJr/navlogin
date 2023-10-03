@@ -14,20 +14,41 @@ const QrCode = () => {
     const [ input , setInput ] = useState( "" )
     const [ img, setImg ] = useState( "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Hello" )
     
-    const generateQrCode = (e) => {
+    const generateQrCode = () => {
         setImg( `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=` + input  )
         // setInput( "" )
     }
+
+    // download image on button click
+    const download = () => {
+    fetch(img, {
+      method: "GET",
+      headers: {}
+    })
+      .then(response => {
+        response.arrayBuffer().then(function(buffer) {
+          const url = window.URL.createObjectURL(new Blob([buffer]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "qr-code.png"); 
+          document.body.appendChild(link);
+          link.click();
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="bg-gradient-to-bl from-orange-400 via-orange-600 to-orange-700 h-screen ">
         <div className="lg:w-7/12 w-[380px] absolute top-[50%] right-[50%] translate-x-[50%] translate-y-[-50%]">
             <div className="lg:flex relative lg:overflow-hidden">
-                <div className="lg:w-2/5 z-10 bg-slate-600 rounded-xl lg:rounded-r-none rounded-b-none before:absolute before:contents-[''] lg:before:inline-block before:hidden before:right-[53%] before:top-[50%] before:transform before:duration-300 before:translate-y-[-50%] before:rotate-[10deg] hover:before:rotate-[5deg] before:w-[20%] before:h-[130%] before:bg-slate-600 before:z-[-1]">
-                      <h1 className="text-white text-5xl font-mono font-black uppercase lg:mx-16 lg:p-0 p-[30px]  lg:mt-16 ">Qr-Code Generator</h1>
-                      <p className='text-white text-2xl font-mono lg:mx-16 lg:p-0 p-[30px] pt-0 '>Use any where</p>
+                <div className="lg:w-2/5 z-10 bg-slate-600 rounded-xl lg:rounded-r-none rounded-b-none before:absolute before:contents-[''] lg:before:inline-block before:hidden before:right-[53%] before:top-[50%] before:transform before:duration-300 before:translate-y-[-50%] before:rotate-[10deg] hover:before:rotate-[5deg] before:w-[20%] before:h-[130%] before:bg-slate-600 before:z-[-1] lg:text-start text-center">
+                      <h1 className="text-white lg:text-5xl md:text-3xl text-2xl font-mono font-black uppercase lg:mx-16 lg:p-0 p-[30px] pb-[10px] lg:mt-16 ">Qr-Code Generator</h1>
+                      <p className='text-white lg:text-2xl text-xl font-mono lg:mx-16 lg:p-0 p-[30px] pt-0 '>Use any time</p>
                 </div>
-                <div className="lg:w-3/5 h-[28rem] bg-white rounded-xl rounded-l-none relative">
+                <div className="lg:w-3/5 h-[28rem] bg-white rounded-xl lg:rounded-l-none rounded-t-none relative">
                       <div className="absolute top-[50%] lg:right-[40%] right-[50%] translate-x-[50%] translate-y-[-50%]  lg:w-80 h-96">
                           <h3 className="text-md font-mono mb-2">Type your text or URL here</h3>
                           <input onChange={(e)=>{setInput(e.target.value)}} type="text" placeholder="Enter your text or URL" className="px-5 w-full py-1 border-[1px] border-[#d7d7d7] focus:outline-0 focus:bg-[#e8f0fe] rounded" />
@@ -37,7 +58,7 @@ const QrCode = () => {
                               <img src={img} className='inline-block h-[200px] w-[200px]'/>
                           </div>
                           <div className='mt-4 flex'>
-                              <button className='w-1/2 py-1 border-2 border-slate-600 rounded-full bg-slate-600 text-white font-mono px-8 hover:bg-slate-800  transform duration-300 mr-2' type='submit' onClick={generateQrCode}>Download</button>
+                              <button className='w-1/2 py-1 border-2 border-slate-600 rounded-full bg-slate-600 text-white font-mono px-8 hover:bg-slate-800  transform duration-300 mr-2' type='submit' onClick={download}>Download</button>
                               <button className='w-1/2 py-1 border-2 rounded-full bg-white border-slate-600 text-slate-600  font-mono px-8 hover:bg-slate-600 hover:text-white transform duration-500' type='button' onClick={() => input.value = ''}>Reset</button>
                           </div>
                     </div>
