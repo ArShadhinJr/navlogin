@@ -1,7 +1,12 @@
+import { useState } from 'react'
 import logo from '../../assets/logo..png'
 import './CreativeLoginPage.css'
 
 const CreativeLoginPage = () => {
+
+    
+    
+
   return (
     <div className='bg-cit md:bg-center md:bg-cover h-screen w-full grid place-content-center selection:bg-[#feb1a2] text-nunito'>
         <div className='md:w-[920px] w-[380px] bg-white md:flex'>
@@ -23,7 +28,7 @@ const CreativeLoginPage = () => {
                     </div>
                     <div className='flex items-center justify-between'>
                         <p><a href="#" className='hover:text-primary text-sm'>I have no account</a></p>
-                        <p><button type='submit' className='uppercase text-sm text-white bg-primary hover:bg-[#620716] font-medium lg:px-[42px] md:px-[38px] sm:px-[32px] px-[28px] lg:py-[12px] md:py-[10px] sm:py-[8px] py-[6px] rounded-full'>login</button></p>
+                        <p><button type='submit' className='uppercase text-sm text-white bg-primary hover:bg-[#620716] font-medium lg:px-[42px] md:px-[38px] sm:px-[32px] px-[28px] lg:py-[12px] md:py-[10px] sm:py-[8px] py-[6px] rounded-full' >login</button></p>
                     </div>
                 </form>
             </div>
