@@ -1,15 +1,26 @@
 import { useState } from 'react';
 import CenterDiv from '../CenterDiv/CenterDiv'
 import InputTag from './../InputTag/InputTag';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 
 const SimpleLogin = () => {
+
+    const auth = getAuth()
+    const navigate = useNavigate()
 
     const [ values, setValues ] = useState( {
         name: "", 
         email: "", 
         password: ""
     } )
+
+    const [ error, setError ] = useState( {
+        name: "", 
+        email: "", 
+        password: ""
+    })
     
     const inputOps = [
         {
@@ -33,24 +44,62 @@ const SimpleLogin = () => {
     ]
     
     const handleValues = (e) => {
-        setValues( {
-            ...values,
-            [ e.target.name ]: e.target.value
-        } )
+        if ( e.target.name === "name" ) {
+            if ( e.target.value === "" ) {
+                setError( {...error, name: "Please enter your name" })
+            } else {
+                setValues( {...values, name: e.target.value})
+                setError( {...error, name: ""})
+            }
+        }
+
+        if ( e.target.name === "email" ) {
+            if ( e.target.value === "" ) {
+                setError( {...error, email: "Please enter your email" })
+            } else if ( !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test( e.target.value ) ) {
+                setError( { ...error, email: "Please enter a valid email" } )
+                setValues({...values, email: e.target.value})
+            } else {
+                setValues( {...values, email: e.target.value})
+                setError( {...error, email: ""})
+            }
+        }
+
+        if ( e.target.name === "password" ) {
+            if ( e.target.value === "" ) {
+                setError( {...error, password: "Please enter your password" })
+            } else {
+                setValues( {...values, password: e.target.value})
+                setError( {...error, password: ""})
+            }
+        }
     }
 
     const reset = () => {
         setValues(
             {name: "", 
-        email: "", 
-        password: ""}
+            email: "", 
+            password: ""}
         )
     }
 
-    const handleSubmit = (e) => {
+    
+
+    const handleSubmit = ( e ) => {
         e.preventDefault()
-        console.log( values )
-        reset ()
+        if( values.name &&  values.email && values.password ) {
+            signInWithEmailAndPassword(auth, values.email, values.password)
+            .then(() => {
+                reset()
+                navigate("/home")
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                console.log(errorCode)
+            });
+        } else {
+            setError( { ...error, name: "Please enter your name" , email: "Please enter your email", password: "Please enter your password" } )
+        }
     }
 
   return (
@@ -59,11 +108,15 @@ const SimpleLogin = () => {
         <form onSubmit={handleSubmit}>
             {
                   inputOps.map( ( value, index ) => {
-                    return <InputTag key={index} {...value} onChange={handleValues}/>
+                      return <>
+                          <InputTag key={index} {...value} onChange={handleValues} />
+                          <p className='text-white bg-red-700 px-3 rounded'>{error[value.name]}</p>
+                      </>
+                      
                 })
             }
             
-            <button className='px-5 py-1 bg-slate-800 text-white rounded-lg font-bold'  type="submit">Login</button>
+            <button className='px-5 py-1 bg-slate-800 text-white rounded-lg font-bold mt-3 mr-3'  type="submit">Login</button>
             <Link to="/simplereg">Registration</Link>
         </form>
     </CenterDiv>

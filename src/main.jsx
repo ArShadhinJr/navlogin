@@ -10,6 +10,8 @@ import NotFound from './components/NotFound/NotFound.jsx'
 import Ordering from './components/Ordering/Ordering.jsx'
 import SimpleReg from './components/SimpleReg/SimpleReg.jsx'
 import SimpleLogin from './components/SimpleLogin/SimpleLogin.jsx'
+import OntherLogin from './components/OntherLogin/OntherLogin.jsx'
+import firebaseConfig from './Auth/Firebase/Firebase.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -23,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/ordering' element={<Ordering />} />
         <Route path='/simplereg' element={<SimpleReg />} />
         <Route path='/simplelogin' element={<SimpleLogin />} />
+        <Route path='/ontherlogin' element={<OntherLogin />} />
         <Route path='*' element={<NotFound />} />
 
       </Routes>

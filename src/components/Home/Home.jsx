@@ -12,6 +12,7 @@ const Home = () => {
                     <li className="p-2"><Link to={"/ordering"}>Ordering</Link></li>
                     <li className="p-2"><Link to={"/simplereg"}>Simple Registration</Link></li>
                     <li className="p-2"><Link to={"/simplelogin"}>Simple Login</Link></li>
+                    <li className="p-2"><Link to={"/ontherlogin"}>Onther Login</Link></li>
 
                 </ul>
             </div>
