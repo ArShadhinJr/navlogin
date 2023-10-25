@@ -12,11 +12,16 @@ import SimpleReg from './components/SimpleReg/SimpleReg.jsx'
 import SimpleLogin from './components/SimpleLogin/SimpleLogin.jsx'
 import OntherLogin from './components/OntherLogin/OntherLogin.jsx'
 import firebaseConfig from './Auth/Firebase/Firebase.jsx'
+import Enter from './components/Enter.jsx/Enter.jsx'
+import { Provider } from 'react-redux'
+import { store } from './store.jsx'
+import QrCodeDesign from './components/QrCodeDesign/QrCodeDesign.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     
-    <BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
       <HomeButton/>
       <Routes>
         <Route path='/' element={<App />} />
@@ -27,8 +32,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/simplelogin' element={<SimpleLogin />} />
         <Route path='/ontherlogin' element={<OntherLogin />} />
         <Route path='*' element={<NotFound />} />
-
+        <Route path='/enter' element={<Enter />} />
+        <Route path='/qr' element={<QrCodeDesign />} />
       </Routes>
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 )
